@@ -24,7 +24,7 @@ def infer_country(channel_id, display):
 
 def main():
     if WORK.exists(): shutil.rmtree(WORK)
-    run(['git','clone','--depth','1',UPSTREAM,str(WORK)])
+    run(['git','clone','--depth','1',UPSTREAM,str(WORK)])\n    run(['npm','install','--no-audit','--no-fund'],cwd=WORK)
     # Read upstream site catalogue (SITES.md). Collect identifiers from table-like lines.
     sites_file=WORK/'SITES.md'
     sites=[]
@@ -44,7 +44,7 @@ def main():
     for i in range(0,len(sites),25):
         batch=sites[i:i+25]
         target=ROOT/f'_batch_{i//25}.xml'
-        cmd=['npm','run','grab','---',f'--sites={','.join(batch)}',f'--days={DAYS}',f'--output={target}']
+        site_arg=','.join(batch)\n        cmd=['npm','run','grab','---',f'--sites={site_arg}',f'--days={DAYS}',f'--output={target}']
         run(cmd,cwd=WORK)
         if target.exists(): produced.append(target)
     if not produced: raise RuntimeError('Upstream scraper produced no batches')
