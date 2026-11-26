@@ -4,11 +4,28 @@ Automated worldwide XMLTV aggregation from the numbered, curated EPG feeds publi
 
 ## Outputs
 
+The daily workflow builds these outputs and publishes them as downloadable assets on the repository's rolling **Latest EPG feeds** release:
+
 - `guide.epg` — worldwide XMLTV guide (XML content, `.epg` extension)
 - `guide.xml` — worldwide XMLTV guide
-- `guide.xml.gz` — compressed worldwide XMLTV
+- `guide.xml.gz` — compressed worldwide XMLTV guide
 - `countries/<ISO-3166-1-alpha-2>.xml` — country feeds when reliable channel country metadata is available
 - `status.json` — build summary, per-feed status, counts and failures
+
+Large feeds are deliberately not committed to Git: GitHub rejects ordinary repository files over 100 MB. Release assets support files up to 2 GB each, which accommodates the current generated feeds. The workflow validates every output before replacing the release assets. Old assets are removed on each refresh so country feeds that disappear upstream are not left advertised.
+
+## Feed downloads
+
+Stable public download links (the files are replaced by the daily workflow):
+
+- Worldwide XMLTV: https://github.com/AT78/worldepg/releases/download/latest/guide.xml
+- Worldwide compressed XMLTV: https://github.com/AT78/worldepg/releases/download/latest/guide.xml.gz
+- Worldwide EPG alias: https://github.com/AT78/worldepg/releases/download/latest/guide.epg
+- Build status: https://github.com/AT78/worldepg/releases/download/latest/status.json
+- Country feeds: https://github.com/AT78/worldepg/releases/download/latest/gb.xml (replace `gb` with the desired country code and add the `countries/` path? No — country assets are uploaded with their country filename at the release root, e.g. `gb.xml`.)
+
+Country asset links use the filename at the release root, for example:
+`https://github.com/AT78/worldepg/releases/download/latest/gb.xml`.
 
 ## Upstream source
 
@@ -20,16 +37,9 @@ The number in `epgN` is an EPGenius list identifier. It is not a country code; f
 
 Each feed is downloaded and checked independently. A broken or unavailable feed does not prevent other valid feeds from being merged. Channels and programmes are deduplicated across feeds. Programme entries are filtered to the current seven-day target window; actual coverage depends on upstream listings and may be shorter for some channels.
 
-## Feed URLs
-
-- Worldwide XMLTV: https://raw.githubusercontent.com/AT78/worldepg/main/guide.xml
-- Worldwide compressed XMLTV: https://raw.githubusercontent.com/AT78/worldepg/main/guide.xml.gz
-- Worldwide EPG alias: https://raw.githubusercontent.com/AT78/worldepg/main/guide.epg
-- Country feeds: https://raw.githubusercontent.com/AT78/worldepg/main/countries/gb.xml (replace `gb` with an available country code)
-
 ## Updates
 
-GitHub Actions runs daily at 03:17 UTC and can also be started manually from the Actions tab. Generated feeds are validated before publication.
+GitHub Actions runs daily at 03:17 UTC and can also be started manually from the Actions tab. Generated feeds are validated before publication. Only the compact `status.json` build report is committed to the repository; large feed files are published as release assets to stay within GitHub's repository file-size limits.
 
 ## Attribution and limitations
 
