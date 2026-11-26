@@ -21,9 +21,32 @@ jobs:
         run: python scripts/build.py
       - name: Validate generated feeds
         run: python scripts/validate.py
-      - name: Commit generated feeds
+      - name: Check release asset size limits
+        shell: bash
+        run: |
+          oversized="$(find guide.epg guide.xml guide.xml.gz countries -type f -size +1900M -print -quit)"
+          if [ -n "$oversized" ]; then
+            echo "::error::Release asset is approaching GitHub's 2 GB per-file limit: $oversized"
+            exit 1
+          fi
+      - name: Publish feeds as GitHub Release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          if gh release view latest >/dev/null 2>&1; then
+            gh release edit latest --title "Latest EPG feeds" --notes "Automatically refreshed worldwide and country XMLTV feeds. See the repository README for feed details and coverage limitations." --latest
+            while IFS= read -r asset; do
+              [ -n "$asset" ] && gh release delete-asset latest "$asset" --yes
+            done < <(gh release view latest --json assets --jq '.assets[].name')
+          else
+            gh release create latest --target "$GITHUB_SHA" --title "Latest EPG feeds" --notes "Automatically refreshed worldwide and country XMLTV feeds. See the repository README for feed details and coverage limitations." --latest
+          fi
+          assets=(guide.epg guide.xml guide.xml.gz status.json countries/*.xml)
+          gh release upload latest "${assets[@]}" --clobber
+      - name: Commit build status
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add guide.epg guide.xml guide.xml.gz countries status.json
-          if git diff --cached --quiet; then echo 'No feed changes'; else git commit -m 'Update EPG feeds'; git push; fi
+          git add status.json
+          if git diff --cached --quiet; then echo 'No status changes'; else git commit -m 'Update EPG build status'; git push; fi
