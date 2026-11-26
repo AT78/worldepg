@@ -1,0 +1,6 @@
+{
+  "upstream_repository": "https://github.com/iptv-org/epg.git",
+  "target_days": 7,
+  "scheduled_daily_utc": "03:17",
+  "notes": "Initial source discovery uses the upstream catalogue; review and improve source selection and country attribution as the project evolves."
+}
