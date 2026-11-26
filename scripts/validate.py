@@ -11,21 +11,21 @@ ROOT = Path(__file__).resolve().parent.parent
 def parse(path, compressed=False):
     """Stream-parse an XMLTV file and check programme channel references."""
     opener = gzip.open if compressed else open
+    root = None
+    root_tag = None
     channels = set()
     referenced_channels = set()
     channel_count = 0
     programme_count = 0
-    root_tag = None
 
     with opener(path, "rb") as stream:
         for event, element in ET.iterparse(stream, events=("start", "end")):
-            if root_tag is None and event == "start":
-                root_tag = element.tag
-                if root_tag != "tv":
-                    raise ValueError(f"{path}: root element must be tv")
-                continue
-
-            if event != "end":
+            if event == "start":
+                if root is None:
+                    root = element
+                    root_tag = element.tag
+                    if root_tag != "tv":
+                        raise ValueError(f"{path}: root element must be tv")
                 continue
 
             if element.tag == "channel":
@@ -39,16 +39,10 @@ def parse(path, compressed=False):
                     referenced_channels.add(channel_id)
                 programme_count += 1
 
-            # XMLTV's channel/programme records are direct children of <tv>.
-            # Clearing the root after each record releases its processed subtree.
             if element.tag in ("channel", "programme"):
-                element.clear()
-                # The root is the first element opened by iterparse.
-                # Clearing it prevents ElementTree retaining millions of empty nodes.
-                if root_tag is not None:
-                    # The root element is available as the first item in the iterator's
-                    # tree; retain it explicitly via the parser's first start event below.
-                    pass
+                # Release the processed record and all previously completed
+                # siblings from the root, keeping memory bounded while parsing.
+                root.clear()
 
     if root_tag != "tv":
         raise ValueError(f"{path}: empty or invalid XMLTV document")
