@@ -36,16 +36,24 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
+          notes="Automatically refreshed worldwide and country XMLTV feeds. See the repository README for feed details and coverage limitations."
           if gh release view latest >/dev/null 2>&1; then
-            gh release edit latest --title "Latest EPG feeds" --notes "Automatically refreshed worldwide and country XMLTV feeds. See the repository README for feed details and coverage limitations." --latest
-            while IFS= read -r asset; do
-              [ -n "$asset" ] && gh release delete-asset latest "$asset" --yes
-            done < <(gh release view latest --json assets --jq '.assets[].name')
+            gh release edit latest --title "Latest EPG feeds" --notes "$notes" --latest
           else
-            gh release create latest --target "$GITHUB_SHA" --title "Latest EPG feeds" --notes "Automatically refreshed worldwide and country XMLTV feeds. See the repository README for feed details and coverage limitations." --latest
+            gh release create latest --target "$GITHUB_SHA" --title "Latest EPG feeds" --notes "$notes" --latest
           fi
+          shopt -s nullglob
           assets=(guide.epg guide.xml guide.xml.gz status.json countries/*.xml)
+          # Upload/replace the new set before pruning stale country assets so
+          # a failed upload does not wipe the currently published feed set.
           gh release upload latest "${assets[@]}" --clobber
+          declare -A keep
+          for file in "${assets[@]}"; do keep["$(basename "$file")"]=1; done
+          while IFS= read -r existing; do
+            if [ -n "$existing" ] && [ -z "${keep[$existing]:-}" ]; then
+              gh release delete-asset latest "$existing" --yes
+            fi
+          done < <(gh release view latest --json assets --jq '.assets[].name')
       - name: Commit build status
         run: |
           git config user.name 'github-actions[bot]'
