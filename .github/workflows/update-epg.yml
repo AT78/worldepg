@@ -18,6 +18,8 @@ jobs:
         with:
           python-version: '3.12'
       - name: Build worldwide and country feeds from curated upstream lists
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/build.py
       - name: Validate generated feeds
         run: python scripts/validate.py
