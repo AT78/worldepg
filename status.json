@@ -1,5 +1,5 @@
 {
-  "generated_utc": "2026-11-26T17:11:38.681194+00:00",
+  "generated_utc": "2026-11-27T15:26:10.919291+00:00",
   "target_days": 7,
   "upstream_repository": "https://github.com/ferteque/Curated-M3U-Repository",
   "upstream_feed_count": 29,
@@ -11,64 +11,64 @@
       "epgenius_id": 1,
       "download": "ok",
       "channels_seen": 396,
-      "programmes_in_window_seen": 16204,
-      "download_bytes": 1352204
+      "programmes_in_window_seen": 16331,
+      "download_bytes": 1355317
     },
     {
       "feed": "epg2.xml.gz",
       "epgenius_id": 2,
       "download": "ok",
       "channels_seen": 4266,
-      "programmes_in_window_seen": 227569,
-      "download_bytes": 8289237
+      "programmes_in_window_seen": 235798,
+      "download_bytes": 8492194
     },
     {
       "feed": "epg6.xml.gz",
       "epgenius_id": 6,
       "download": "ok",
-      "channels_seen": 15761,
-      "programmes_in_window_seen": 970976,
-      "download_bytes": 11961612
+      "channels_seen": 15765,
+      "programmes_in_window_seen": 979620,
+      "download_bytes": 11694957
     },
     {
       "feed": "epg9.xml.gz",
       "epgenius_id": 9,
       "download": "ok",
       "channels_seen": 7301,
-      "programmes_in_window_seen": 351372,
-      "download_bytes": 11548142
+      "programmes_in_window_seen": 360651,
+      "download_bytes": 11791125
     },
     {
       "feed": "epg13.xml.gz",
       "epgenius_id": 13,
       "download": "ok",
       "channels_seen": 356,
-      "programmes_in_window_seen": 21065,
-      "download_bytes": 1438101
+      "programmes_in_window_seen": 21443,
+      "download_bytes": 1422611
     },
     {
       "feed": "epg14.xml.gz",
       "epgenius_id": 14,
       "download": "ok",
-      "channels_seen": 3348,
-      "programmes_in_window_seen": 145895,
-      "download_bytes": 6390303
+      "channels_seen": 3350,
+      "programmes_in_window_seen": 146424,
+      "download_bytes": 6283423
     },
     {
       "feed": "epg15.xml.gz",
       "epgenius_id": 15,
       "download": "ok",
       "channels_seen": 5112,
-      "programmes_in_window_seen": 242800,
-      "download_bytes": 6777545
+      "programmes_in_window_seen": 243040,
+      "download_bytes": 6550522
     },
     {
       "feed": "epg20.xml.gz",
       "epgenius_id": 20,
       "download": "ok",
-      "channels_seen": 15601,
-      "programmes_in_window_seen": 942963,
-      "download_bytes": 9719660
+      "channels_seen": 15463,
+      "programmes_in_window_seen": 956591,
+      "download_bytes": 9907984
     },
     {
       "feed": "epg28.xml.gz",
@@ -91,72 +91,72 @@
       "epgenius_id": 31,
       "download": "ok",
       "channels_seen": 417,
-      "programmes_in_window_seen": 25414,
-      "download_bytes": 2260089
+      "programmes_in_window_seen": 25601,
+      "download_bytes": 2329545
     },
     {
       "feed": "epg32.xml.gz",
       "epgenius_id": 32,
       "download": "ok",
       "channels_seen": 898,
-      "programmes_in_window_seen": 54854,
-      "download_bytes": 7238062
+      "programmes_in_window_seen": 34949,
+      "download_bytes": 5802415
     },
     {
       "feed": "epg37.xml.gz",
       "epgenius_id": 37,
       "download": "ok",
-      "channels_seen": 10856,
-      "programmes_in_window_seen": 379516,
-      "download_bytes": 61244475
+      "channels_seen": 10925,
+      "programmes_in_window_seen": 609048,
+      "download_bytes": 61518059
     },
     {
       "feed": "epg38.xml.gz",
       "epgenius_id": 38,
       "download": "ok",
-      "channels_seen": 2484,
-      "programmes_in_window_seen": 114432,
-      "download_bytes": 6531686
+      "channels_seen": 2483,
+      "programmes_in_window_seen": 115966,
+      "download_bytes": 6154115
     },
     {
       "feed": "epg41.xml.gz",
       "epgenius_id": 41,
       "download": "ok",
-      "channels_seen": 3326,
-      "programmes_in_window_seen": 161159,
-      "download_bytes": 5518232
+      "channels_seen": 3360,
+      "programmes_in_window_seen": 167426,
+      "download_bytes": 5670253
     },
     {
       "feed": "epg42.xml.gz",
       "epgenius_id": 42,
       "download": "ok",
       "channels_seen": 1479,
-      "programmes_in_window_seen": 129079,
-      "download_bytes": 5110608
+      "programmes_in_window_seen": 123993,
+      "download_bytes": 4431860
     },
     {
       "feed": "epg43.xml.gz",
       "epgenius_id": 43,
       "download": "ok",
       "channels_seen": 14,
-      "programmes_in_window_seen": 1376,
-      "download_bytes": 22200
+      "programmes_in_window_seen": 1338,
+      "download_bytes": 20718
     },
     {
       "feed": "epg47.xml.gz",
       "epgenius_id": 47,
       "download": "ok",
       "channels_seen": 940,
-      "programmes_in_window_seen": 8311,
-      "download_bytes": 90182
+      "programmes_in_window_seen": 8313,
+      "download_bytes": 91292
     },
     {
       "feed": "epg49.xml.gz",
       "epgenius_id": 49,
       "download": "ok",
-      "channels_seen": 15601,
-      "programmes_in_window_seen": 942961,
-      "download_bytes": 9719386
+      "channels_seen": 15463,
+      "programmes_in_window_seen": 956590,
+      "download_bytes": 9908204
     },
     {
       "feed": "epg50.xml.gz",
@@ -170,16 +170,16 @@
       "feed": "epg51.xml.gz",
       "epgenius_id": 51,
       "download": "ok",
-      "channels_seen": 15601,
-      "programmes_in_window_seen": 942961,
-      "download_bytes": 9719386
+      "channels_seen": 15463,
+      "programmes_in_window_seen": 956590,
+      "download_bytes": 9908204
     },
     {
       "feed": "epg52.xml.gz",
       "epgenius_id": 52,
       "download": "ok",
       "channels_seen": 1475,
-      "programmes_in_window_seen": 38254,
+      "programmes_in_window_seen": 30806,
       "download_bytes": 1743072
     },
     {
@@ -192,9 +192,9 @@
       "feed": "epg55.xml.gz",
       "epgenius_id": 55,
       "download": "ok",
-      "channels_seen": 1224,
-      "programmes_in_window_seen": 121045,
-      "download_bytes": 8079859
+      "channels_seen": 1219,
+      "programmes_in_window_seen": 125985,
+      "download_bytes": 8241567
     },
     {
       "feed": "epg59.xml.gz",
@@ -209,37 +209,37 @@
       "epgenius_id": 63,
       "download": "ok",
       "channels_seen": 7875,
-      "programmes_in_window_seen": 585442,
-      "download_bytes": 32688769
+      "programmes_in_window_seen": 601717,
+      "download_bytes": 32986028
     },
     {
       "feed": "epg64.xml.gz",
       "epgenius_id": 64,
       "download": "ok",
-      "channels_seen": 11553,
-      "programmes_in_window_seen": 393808,
-      "download_bytes": 16457992
+      "channels_seen": 11641,
+      "programmes_in_window_seen": 407663,
+      "download_bytes": 16894311
     },
     {
       "feed": "epg65.xml.gz",
       "epgenius_id": 65,
       "download": "ok",
       "channels_seen": 9170,
-      "programmes_in_window_seen": 712659,
-      "download_bytes": 28984784
+      "programmes_in_window_seen": 729632,
+      "download_bytes": 29153717
     },
     {
       "feed": "epg66.xml.gz",
       "epgenius_id": 66,
       "download": "ok",
       "channels_seen": 15631,
-      "programmes_in_window_seen": 797207,
-      "download_bytes": 30568934
+      "programmes_in_window_seen": 821407,
+      "download_bytes": 30984303
     }
   ],
-  "channels": 84045,
-  "programmes": 4940147,
-  "country_feeds": 38,
+  "channels": 87990,
+  "programmes": 5220479,
+  "country_feeds": 40,
   "country_method": "XMLTV channel country element, then ISO-3166-1 alpha-2 channel-ID suffix",
   "coverage_note": "Seven-day target window. Actual schedule depth depends on each upstream feed. epgN is an EPGenius list identifier, not a country code."
 }
