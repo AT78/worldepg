@@ -1,5 +1,11 @@
 name: Update EPG
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/update-epg.yml'
+      - 'scripts/**'
+      - 'config/**'
   schedule:
     - cron: '17 3 * * *'
   workflow_dispatch:
