@@ -48,10 +48,19 @@ def request(url: str, timeout: int = 90) -> bytes:
                 retryable = True
             if not retryable or attempt == 4:
                 raise
-            delay = min(60, int(exc.headers.get("Retry-After", 0) or 0) or (2 ** attempt))
-            if exc.code == 403 and exc.headers.get("X-RateLimit-Reset"):
-                reset_delay = max(1, int(exc.headers["X-RateLimit-Reset"]) - int(time.time()))
-                delay = min(60, reset_delay)
+            retry_after = exc.headers.get("Retry-After", "")
+            try:
+                delay = int(retry_after) if retry_after else 0
+            except ValueError:
+                delay = 0
+            delay = min(60, delay or (2 ** attempt))
+            reset = exc.headers.get("X-RateLimit-Reset")
+            if exc.code == 403 and reset:
+                try:
+                    reset_delay = max(1, int(reset) - int(time.time()))
+                    delay = min(60, reset_delay)
+                except ValueError:
+                    pass
             print(f"HTTP {exc.code} for {url}; retrying in {delay}s (attempt {attempt + 1}/5)")
             time.sleep(delay)
         except (urllib.error.URLError, TimeoutError) as exc:
