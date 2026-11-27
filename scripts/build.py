@@ -6,6 +6,7 @@ import concurrent.futures
 import copy
 import gzip
 import json
+import os
 import re
 import shutil
 import time
@@ -28,9 +29,38 @@ COUNTRY_CODES = set(CONFIG.get("iso_country_codes", []))
 
 
 def request(url: str, timeout: int = 90) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "worldepg/1.0 (+https://github.com/AT78/worldepg)"})
-    with urllib.request.urlopen(req, timeout=timeout) as response:
-        return response.read()
+    """Fetch with authenticated GitHub API access when available and bounded retries."""
+    headers = {"User-Agent": "worldepg/1.0 (+https://github.com/AT78/worldepg)"}
+    if url.startswith("https://api.github.com/"):
+        headers["Accept"] = "application/vnd.github+json"
+        token = os.environ.get("GITHUB_TOKEN")
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=headers)
+    for attempt in range(5):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as response:
+                return response.read()
+        except urllib.error.HTTPError as exc:
+            retryable = exc.code in (429, 500, 502, 503, 504)
+            body = exc.read().decode("utf-8", errors="replace").lower()
+            if exc.code == 403 and ("rate limit" in body or exc.headers.get("X-RateLimit-Remaining") == "0"):
+                retryable = True
+            if not retryable or attempt == 4:
+                raise
+            delay = min(60, int(exc.headers.get("Retry-After", 0) or 0) or (2 ** attempt))
+            if exc.code == 403 and exc.headers.get("X-RateLimit-Reset"):
+                reset_delay = max(1, int(exc.headers["X-RateLimit-Reset"]) - int(time.time()))
+                delay = min(60, reset_delay)
+            print(f"HTTP {exc.code} for {url}; retrying in {delay}s (attempt {attempt + 1}/5)")
+            time.sleep(delay)
+        except (urllib.error.URLError, TimeoutError) as exc:
+            if attempt == 4:
+                raise
+            delay = min(30, 2 ** attempt)
+            print(f"Network error for {url}: {exc}; retrying in {delay}s (attempt {attempt + 1}/5)")
+            time.sleep(delay)
+    raise RuntimeError("Request retries exhausted")
 
 
 def discover_feeds() -> list[dict]:
@@ -147,7 +177,12 @@ def main() -> None:
         feed_programmes = 0
         try:
             with gzip.open(path, "rb") as stream:
-                for event, element in ET.iterparse(stream, events=("end",)):
+                root = None
+                for event, element in ET.iterparse(stream, events=("start", "end")):
+                    if event == "start":
+                        if root is None:
+                            root = element
+                        continue
                     if element.tag == "channel":
                         channel_id = element.get("id")
                         if channel_id:
@@ -155,6 +190,8 @@ def main() -> None:
                                 channel_nodes[channel_id] = copy.deepcopy(element)
                             feed_channels += 1
                         element.clear()
+                        if root is not None:
+                            root.clear()
                     elif element.tag == "programme":
                         start = parse_xmltv_timestamp(element.get("start"))
                         stop = parse_xmltv_timestamp(element.get("stop"))
@@ -164,6 +201,8 @@ def main() -> None:
                                 programme_nodes[key] = copy.deepcopy(element)
                             feed_programmes += 1
                         element.clear()
+                        if root is not None:
+                            root.clear()
             feed_status.append({
                 "feed": feed["name"], "epgenius_id": feed["id"], "download": "ok",
                 "channels_seen": feed_channels, "programmes_in_window_seen": feed_programmes,
