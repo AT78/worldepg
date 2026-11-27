@@ -4,7 +4,7 @@ Automated worldwide XMLTV aggregation from the numbered, curated EPG feeds publi
 
 ## Outputs
 
-The daily workflow builds these outputs and publishes them as downloadable assets on the repository's rolling **Latest EPG feeds** release:
+The daily workflow builds these outputs and publishes them as downloadable assets on the repository's rolling **Latest EPG feeds** release. Country files are generated in `countries/` during the build, then uploaded to the release using their short filename (for example, `gb.xml`):
 
 - `guide.epg` — worldwide XMLTV guide (XML content, `.epg` extension)
 - `guide.xml` — worldwide XMLTV guide
@@ -12,7 +12,7 @@ The daily workflow builds these outputs and publishes them as downloadable asset
 - `countries/<ISO-3166-1-alpha-2>.xml` — country feeds when reliable channel country metadata is available
 - `status.json` — build summary, per-feed status, counts and failures
 
-Large feeds are deliberately not committed to Git: GitHub rejects ordinary repository files over 100 MB. Release assets support files up to 2 GB each, which accommodates the current generated feeds. The workflow validates every output before replacing the release assets. Old assets are removed on each refresh so country feeds that disappear upstream are not left advertised.
+Large feeds are deliberately not committed to Git: GitHub rejects ordinary repository files over 100 MB. Release assets support files up to 2 GB each, which accommodates the current generated feeds. The workflow validates every output before publishing. New assets are uploaded before obsolete country assets are pruned, so a failed upload does not deliberately wipe the existing feed set. The uncompressed worldwide guide is very large; most clients should use `guide.xml.gz` when supported.
 
 ## Feed downloads
 
@@ -22,10 +22,9 @@ Stable public download links (the files are replaced by the daily workflow):
 - Worldwide compressed XMLTV: https://github.com/AT78/worldepg/releases/download/latest/guide.xml.gz
 - Worldwide EPG alias: https://github.com/AT78/worldepg/releases/download/latest/guide.epg
 - Build status: https://github.com/AT78/worldepg/releases/download/latest/status.json
-- Country feeds: https://github.com/AT78/worldepg/releases/download/latest/gb.xml (replace `gb` with the desired country code and add the `countries/` path? No — country assets are uploaded with their country filename at the release root, e.g. `gb.xml`.)
+- Country feeds: https://github.com/AT78/worldepg/releases/download/latest/gb.xml (replace `gb` with the desired two-letter country code).
 
-Country asset links use the filename at the release root, for example:
-`https://github.com/AT78/worldepg/releases/download/latest/gb.xml`.
+Country assets are at the release root, not under a `countries/` URL path. For example, the UK feed is `https://github.com/AT78/worldepg/releases/download/latest/gb.xml`.
 
 ## Upstream source
 
